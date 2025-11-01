@@ -1,16 +1,12 @@
 'use client'
 
-import { useState } from 'react'
-import { MessageSquare, TrendingUp, Users, Search, Star } from 'lucide-react'
+import { MessageSquare, TrendingUp, Users, Search } from 'lucide-react'
 import { SearchBar } from '@/components/search-bar'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
 export default function Home() {
-  const [searchQuery, setSearchQuery] = useState('')
-
   const handleSearch = (query: string) => {
-    setSearchQuery(query)
     // Navigate to search page with query
     window.location.href = `/search?q=${encodeURIComponent(query)}`
   }
@@ -163,7 +159,7 @@ export default function Home() {
             Ready to Find Your Next Purchase?
           </h2>
           <p className="text-xl text-muted-foreground mb-8">
-            Join thousands of smart shoppers who trust Reddit's honest opinions.
+            Join thousands of smart shoppers who trust Reddit&apos;s honest opinions.
           </p>
           <SearchBar 
             onSearch={handleSearch}

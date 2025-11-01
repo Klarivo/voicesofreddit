@@ -27,6 +27,21 @@ interface RedditSearchResponse {
   };
 }
 
+interface RedditCommentsResponse {
+  data: {
+    children: Array<{
+      data: {
+        id: string;
+        body: string;
+        author: string;
+        score: number;
+        created_utc: number;
+        permalink: string;
+      };
+    }>;
+  };
+}
+
 class RedditAPI {
   private baseUrl = 'https://www.reddit.com';
   private userAgent: string;
@@ -87,14 +102,14 @@ class RedditAPI {
         throw new Error(`Reddit API error: ${response.status}`);
       }
 
-      const data = await response.json();
+      const data = await response.json() as [unknown, RedditCommentsResponse];
       
       // Reddit returns an array where [0] is the post, [1] is comments
       const commentsData = data[1]?.data?.children || [];
       
       return commentsData
-        .filter((child: any) => child.data.body && child.data.body !== '[deleted]')
-        .map((child: any) => ({
+        .filter((child) => child.data.body && child.data.body !== '[deleted]')
+        .map((child) => ({
           id: child.data.id,
           body: child.data.body,
           author: child.data.author,

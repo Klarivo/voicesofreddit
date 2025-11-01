@@ -117,7 +117,7 @@ export function searchMockProducts(query: string): ProductWithRedditData[] {
   return mockProducts.filter(product => 
     product.name.toLowerCase().includes(lowerQuery) ||
     product.brand?.toLowerCase().includes(lowerQuery) ||
-    product.category.toLowerCase().includes(lowerQuery) ||
+    product.category?.toLowerCase().includes(lowerQuery) ||
     product.description?.toLowerCase().includes(lowerQuery)
   )
 }

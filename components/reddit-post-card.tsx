@@ -12,7 +12,7 @@ interface RedditPostCardProps {
   showProduct?: boolean
 }
 
-export function RedditPostCard({ post, className, showProduct = false }: RedditPostCardProps) {
+export function RedditPostCard({ post, className }: RedditPostCardProps) {
   const sentimentColor = post.sentimentScore 
     ? post.sentimentScore > 0.1 
       ? 'text-green-600' 

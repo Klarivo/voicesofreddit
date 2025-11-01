@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { MessageCircle, TrendingUp, TrendingDown } from 'lucide-react'
 import { ProductWithRedditData } from '@/types'
-import { formatScore, timeAgo } from '@/lib/utils'
+import { timeAgo } from '@/lib/utils'
 import { cn } from '@/lib/utils'
 
 interface ProductCardProps {

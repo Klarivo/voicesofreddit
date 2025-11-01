@@ -1,13 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { SearchBar } from '@/components/search-bar'
 import { ProductCard } from '@/components/product-card'
 import { ProductWithRedditData } from '@/types'
 import { Loader2 } from 'lucide-react'
 
-export default function SearchPage() {
+function SearchContent() {
   const searchParams = useSearchParams()
   const initialQuery = searchParams.get('q') || ''
   
@@ -89,7 +89,7 @@ export default function SearchPage() {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">
-                Found {products.length} products for "{query}"
+                Found {products.length} products for &quot;{query}&quot;
               </h2>
             </div>
             
@@ -125,5 +125,33 @@ export default function SearchPage() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold mb-4">Search Products</h1>
+            <p className="text-muted-foreground mb-6">
+              Find honest Reddit reviews for any product
+            </p>
+            <SearchBar 
+              onSearch={() => {}}
+              placeholder="Search for any product..."
+              className="mx-auto"
+            />
+          </div>
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <span className="ml-2 text-muted-foreground">Loading...</span>
+          </div>
+        </div>
+      </div>
+    }>
+      <SearchContent />
+    </Suspense>
   )
 }
