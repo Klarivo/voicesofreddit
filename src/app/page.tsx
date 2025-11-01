@@ -1,88 +1,177 @@
-import Image from "next/image";
+'use client'
+
+import { useState } from 'react'
+import { MessageSquare, TrendingUp, Users, Search, Star } from 'lucide-react'
+import { SearchBar } from '@/components/search-bar'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [searchQuery, setSearchQuery] = useState('')
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const handleSearch = (query: string) => {
+    setSearchQuery(query)
+    // Navigate to search page with query
+    window.location.href = `/search?q=${encodeURIComponent(query)}`
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      {/* Hero Section */}
+      <section className="text-center py-16 md:py-24">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+            Discover Honest Product Reviews from{' '}
+            <span className="text-primary">Reddit</span>
+          </h1>
+          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Find genuine, unbiased opinions on products from real Reddit users across thousands of communities.
+            No sponsored content, just honest reviews.
+          </p>
+          
+          {/* Search Bar */}
+          <div className="mb-8">
+            <SearchBar 
+              onSearch={handleSearch}
+              placeholder="Search for any product... (e.g., iPhone 15, Tesla Model 3, Nike Air Max)"
+              className="mx-auto"
+            />
+          </div>
+
+          {/* Quick Actions */}
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button asChild size="lg">
+              <Link href="/trending">
+                <TrendingUp className="mr-2 h-5 w-5" />
+                View Trending Products
+              </Link>
+            </Button>
+            <Button variant="outline" size="lg" asChild>
+              <Link href="/categories">
+                <Search className="mr-2 h-5 w-5" />
+                Browse Categories
+              </Link>
+            </Button>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 border-t">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">
+            Why Choose VoicesOfReddit?
+          </h2>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center p-6">
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <MessageSquare className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Genuine Reviews</h3>
+              <p className="text-muted-foreground">
+                Real opinions from actual Reddit users, not paid influencers or fake reviews.
+              </p>
+            </div>
+
+            <div className="text-center p-6">
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Users className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Community Driven</h3>
+              <p className="text-muted-foreground">
+                Aggregated from hundreds of Reddit communities and specialized subreddits.
+              </p>
+            </div>
+
+            <div className="text-center p-6">
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <TrendingUp className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Sentiment Analysis</h3>
+              <p className="text-muted-foreground">
+                AI-powered analysis to quickly understand overall product sentiment.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Popular Categories */}
+      <section className="py-16 border-t">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">
+            Popular Categories
+          </h2>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { name: 'Technology', count: '2.5k products', href: '/categories/technology' },
+              { name: 'Home & Garden', count: '1.8k products', href: '/categories/home-garden' },
+              { name: 'Fashion', count: '1.2k products', href: '/categories/fashion' },
+              { name: 'Health & Beauty', count: '950 products', href: '/categories/health-beauty' },
+              { name: 'Sports & Fitness', count: '800 products', href: '/categories/sports-fitness' },
+              { name: 'Automotive', count: '650 products', href: '/categories/automotive' },
+              { name: 'Books & Media', count: '500 products', href: '/categories/books-media' },
+              { name: 'Food & Drink', count: '400 products', href: '/categories/food-drink' },
+            ].map((category) => (
+              <Link
+                key={category.name}
+                href={category.href}
+                className="p-4 border rounded-lg hover:border-primary/50 hover:bg-accent/50 transition-colors"
+              >
+                <h3 className="font-semibold mb-1">{category.name}</h3>
+                <p className="text-sm text-muted-foreground">{category.count}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 border-t bg-muted/30">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-12">
+            Trusted by Thousands
+          </h2>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <div className="text-3xl font-bold text-primary mb-2">10k+</div>
+              <div className="text-muted-foreground">Products Analyzed</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-primary mb-2">500k+</div>
+              <div className="text-muted-foreground">Reddit Comments</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-primary mb-2">150+</div>
+              <div className="text-muted-foreground">Subreddits Monitored</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-primary mb-2">25k+</div>
+              <div className="text-muted-foreground">Daily Visitors</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 text-center">
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold mb-4">
+            Ready to Find Your Next Purchase?
+          </h2>
+          <p className="text-xl text-muted-foreground mb-8">
+            Join thousands of smart shoppers who trust Reddit's honest opinions.
+          </p>
+          <SearchBar 
+            onSearch={handleSearch}
+            placeholder="Start searching for products..."
+            className="mx-auto"
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+      </section>
     </div>
-  );
+  )
 }
